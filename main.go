@@ -1,27 +1,28 @@
 package main
 
 import (
-	"os"
-
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/sirupsen/logrus"
 	log "github.com/sirupsen/logrus"
 )
 
-func init() {
-	// Log as JSON instead of the default ASCII formatter.
-	// log.SetFormatter(&log.JSONFormatter{})
+// func init() {
+// 	// Log as JSON instead of the default ASCII formatter.
+// 	// log.SetFormatter(&log.JSONFormatter{})
 
-	// Output to stdout instead of the default stderr
-	// Can be any io.Writer, see below for File example
-	log.SetOutput(os.Stdout)
+// 	// Output to stdout instead of the default stderr
+// 	// Can be any io.Writer, see below for File example
+// 	log.SetOutput(os.Stdout)
 
-	// Only log the warning severity or above.
-	// log.SetLevel(log.DebugLevel)
-}
+// 	// Only log the warning severity or above.
+// 	// log.SetLevel(log.DebugLevel)
+// }
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	log.WithField("component", "handler").Info("starting handler invocation...")
+	logger := log.New()
+	logrus.FieldLogger(logger).Info("field logger")
+	logger.WithField("component", "handler").Info("starting handler invocation...")
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Body:       "Hello AWS Lambda and Netlify",
